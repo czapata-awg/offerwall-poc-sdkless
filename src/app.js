@@ -32,7 +32,7 @@ app.get('/pay', (_req, res) => {
 
 // ── SDKless API ─────────────────────────────────────────────────────────────
 
-app.use('/offerwall-api/sdkless', require('./routes/api/sdkless'))
+app.use('/sdkless-api', require('./routes/api/sdkless'))
 
 // ── 404 handler ─────────────────────────────────────────────────────────────
 

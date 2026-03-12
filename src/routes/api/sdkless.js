@@ -3,7 +3,7 @@
 /**
  * Offerwall SDKLess / Video — Simple POC
  *
- * GET /offerwall-api/sdkless/session?contentid=1&euid=user123&pubid=2
+ * GET /sdkless-api/session?contentid=1&euid=user123&pubid=2
  *   → Returns { url_qr, url_content }
  */
 
