@@ -1,0 +1,15 @@
+{
+  "videos": [
+    {
+      "content_id": "1",
+      "url": "https://vz-4c650fcd-761.b-cdn.net/7d85f3b1-a83d-4eb6-a709-2f1fe0a1e95a/playlist.m3u8",
+      "name": "Video 1"
+    },
+    {
+      "content_id": "2",
+      "url": "https://vz-4c650fcd-761.b-cdn.net/otro-video/playlist.m3u8",
+      "name": "Video 2"
+    }
+  ],
+  "sessions": []
+}
