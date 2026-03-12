@@ -148,8 +148,16 @@
       button.innerHTML = 'Processing<span class="spinner"></span>';
       status.style.display = 'none';
 
-      // Call partner's endpoint (fire and forget)
+      // Call partner's endpoint
+      // Expected response: { "status": "success", "euid": "...", "action": "unlocked", "timestamp": ... }
       fetch(`https://awgdevelop.ddns.net/hls/payment?euid=${encodeURIComponent(euid)}&pay=true`)
+        .then(res => res.json())
+        .then(data => {
+          console.log('Payment response:', data);
+          if (data.status === 'success' && data.action === 'unlocked') {
+            console.log('Payment confirmed by partner endpoint');
+          }
+        })
         .catch(err => console.error('Payment endpoint error:', err));
 
       // Change to Paid state immediately (regardless of response)
