@@ -119,7 +119,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>🎬 Confirm Payment</h1>
+    <h1>Confirm Payment</h1>
     <p class="info">Click the button to confirm your subscription</p>
 
     <button id="payButton" onclick="confirmPayment()">
@@ -155,7 +155,7 @@
       // Change to Paid state immediately (regardless of response)
       setTimeout(() => {
         status.className = 'status success';
-        status.innerHTML = '✅ Payment confirmed!<br>You can now enjoy the content.';
+        status.innerHTML = 'Payment confirmed!<br>You can now enjoy the content.';
         button.innerHTML = 'Paid';
         button.className = 'paid';
       }, 500);
