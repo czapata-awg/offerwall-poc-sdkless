@@ -5,7 +5,13 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop offerwall-sdkless",
+    "pm2:restart": "pm2 restart offerwall-sdkless",
+    "pm2:delete": "pm2 delete offerwall-sdkless",
+    "pm2:logs": "pm2 logs offerwall-sdkless",
+    "pm2:status": "pm2 status"
   },
   "keywords": [],
   "author": "AWG",
