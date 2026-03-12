@@ -15,7 +15,8 @@ const path = require('path')
 const db = require('../../db')
 const { generateToken } = require('../../utils/token')
 
-const QR_DIR = process.env.QR_IMAGES_DIR || path.join(__dirname, '../../../public/qr')
+const QR_DIR =
+  process.env.QR_IMAGES_DIR || path.join(__dirname, '../../../public/qr')
 
 // Ensure QR directory exists
 if (!fs.existsSync(QR_DIR)) {
@@ -52,7 +53,7 @@ router.get('/session', async (req, res) => {
         contentid,
         session_token: sessionToken,
         paid: false,
-        created_at: new Date().toISOString()
+        created_at: new Date().toISOString(),
       })
     }
 
@@ -62,7 +63,7 @@ router.get('/session', async (req, res) => {
     // 5. Return response
     res.json({
       url_qr: qrUrl,
-      url_content: video.url
+      url_content: video.url,
     })
   } catch (err) {
     console.error('[sdkless/session]', err)
@@ -82,12 +83,12 @@ async function generateAndSaveQR(sessionToken, euid, pubid) {
   const filename = `${sessionToken}.png`
   const filepath = path.join(QR_DIR, filename)
 
-  // Generate and save QR as PNG file
+  // Generate and save QR as PNG file (200x200, black background)
   await QRCode.toFile(filepath, paymentUrl, {
     errorCorrectionLevel: 'M',
-    margin: 2,
-    width: 300,
-    color: { dark: '#000000', light: '#ffffff' },
+    margin: 1,
+    width: 200,
+    color: { dark: '#ffffff', light: '#000000' },
   })
 
   // Return public URL to the QR image
