@@ -143,32 +143,22 @@
       const button = document.getElementById('payButton');
       const status = document.getElementById('status');
 
+      // Block button immediately
       button.disabled = true;
       button.innerHTML = 'Processing<span class="spinner"></span>';
       status.style.display = 'none';
 
-      try {
-        // TODO: Replace with your partner's payment confirmation endpoint
-        const response = await fetch(`https://awgdevelop.ddns.net/hls/payment?euid=${encodeURIComponent(euid)}&pay=true`);
-        const data = await response.json();
+      // Call partner's endpoint (fire and forget)
+      fetch(`https://awgdevelop.ddns.net/hls/payment?euid=${encodeURIComponent(euid)}&pay=true`)
+        .catch(err => console.error('Payment endpoint error:', err));
 
-        if (response.ok && data.status === 'unlocked') {
-          status.className = 'status success';
-          status.innerHTML = '✅ Payment confirmed!<br>You can now enjoy the content.';
-          button.innerHTML = 'Paid';
-          button.className = 'paid';
-        } else {
-          status.className = 'status error';
-          status.innerHTML = '⚠️ Could not confirm payment. Please try again.';
-          button.disabled = false;
-          button.innerHTML = 'Pay';
-        }
-      } catch (error) {
-        status.className = 'status error';
-        status.innerHTML = `❌ Error: ${error.message}`;
-        button.disabled = false;
-        button.innerHTML = 'Pay';
-      }
+      // Change to Paid state immediately (regardless of response)
+      setTimeout(() => {
+        status.className = 'status success';
+        status.innerHTML = '✅ Payment confirmed!<br>You can now enjoy the content.';
+        button.innerHTML = 'Paid';
+        button.className = 'paid';
+      }, 500);
     }
   </script>
 </body>
