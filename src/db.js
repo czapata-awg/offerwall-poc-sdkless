@@ -24,13 +24,13 @@ async function saveDB() {
 // Get video by content_id
 async function getVideo(contentId) {
   await loadDB()
-  return db.videos.find(v => v.content_id === contentId)
+  return db.videos.find((v) => v.content_id === contentId)
 }
 
 // Get session by euid
 async function getSession(euid) {
   await loadDB()
-  return db.sessions.find(s => s.euid === euid)
+  return db.sessions.find((s) => s.euid === euid)
 }
 
 // Create session
@@ -44,7 +44,7 @@ async function createSession(sessionData) {
 // Update session
 async function updateSession(euid, updates) {
   await loadDB()
-  const session = db.sessions.find(s => s.euid === euid)
+  const session = db.sessions.find((s) => s.euid === euid)
   if (session) {
     Object.assign(session, updates)
     await saveDB()
@@ -57,5 +57,5 @@ module.exports = {
   getVideo,
   getSession,
   createSession,
-  updateSession
+  updateSession,
 }
