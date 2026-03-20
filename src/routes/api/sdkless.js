@@ -10,7 +10,7 @@
 const express = require('express')
 const router = express.Router()
 const QRCode = require('qrcode')
-const { createCanvas } = require('canvas')
+const { createCanvas, Image } = require('canvas')
 const fs = require('fs')
 const path = require('path')
 const db = require('../../db')
