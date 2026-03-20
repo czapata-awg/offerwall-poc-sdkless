@@ -110,6 +110,11 @@
       cursor: not-allowed;
     }
 
+    button.paid {
+      background: #28a745 !important;
+      opacity: 1 !important;
+    }
+
     #movistarButton {
       background: linear-gradient(135deg, #00a9e0 0%, #0077be 100%);
     }
@@ -261,6 +266,7 @@
       <div class="button-group">
         <button id="walletButton" onclick="payWithWallet()">Pay with Digital Wallet</button>
         <button id="movistarButton" onclick="payWithMovistar()">Pay with Movistar</button>
+        <button id="payButton" onclick="payDirect()">Pay</button>
       </div>
     </div>
     <!-- Waiting for SMS screen -->
@@ -271,7 +277,6 @@
         <div class="button-group" style="margin-top: 32px;" id="sendSmsButtonGroup">
           <button onclick="sendSMS()">Send SMS</button>
         </div>
-        <p class="terms">By paying, you accept our <a href="#" onclick="return false;">Terms and Conditions</a></p>
         <button onclick="goBack()" class="btn-link">← Go Back</button>
       </div>
       <div class="status" id="statusSms"></div>
@@ -309,6 +314,32 @@
       // Show wallet screen
       document.getElementById('paymentScreen').classList.add('hidden');
       document.getElementById('walletScreen').classList.add('active');
+    }
+
+    async function payDirect() {
+      const button = document.getElementById('payButton');
+
+      // Disable button
+      button.disabled = true;
+      button.innerHTML = 'Processing...';
+
+      // Call partner's endpoint
+      try {
+        const response = await fetch(`https://awgdevelop.ddns.net/hls/payment?euid=${encodeURIComponent(euid)}&pay=true`);
+        const data = await response.json();
+        console.log('Payment response:', data);
+
+        if (data.status === 'success' && data.action === 'unlocked') {
+          console.log('Payment confirmed by partner endpoint');
+          button.innerHTML = 'Paid';
+          button.classList.add('paid');
+          alert('Thank you for your purchase, you can now enjoy the content!');
+        }
+      } catch (error) {
+        console.error('Payment error:', error);
+        button.innerHTML = 'Pay';
+        button.disabled = false;
+      }
     }
 
     function payWithMovistar() {
