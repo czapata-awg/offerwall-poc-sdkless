@@ -267,14 +267,14 @@
     <div id="waitingScreen" class="waiting-screen">
       <div class="waiting-content">
         <h2 class="waiting-title">Waiting for SMS confirmation</h2>
-        <p class="waiting-text">Please send the SMS to complete your payment</p>
-        <div class="button-group" style="margin-top: 32px;">
-          <button onclick="openSMS()">Send SMS</button>
+        <p class="waiting-text" id="smsText">Please send the SMS to complete your payment</p>
+        <div class="button-group" style="margin-top: 32px;" id="sendSmsButtonGroup">
+          <button onclick="sendSMS()">Send SMS</button>
         </div>
         <p class="terms">By paying, you accept our <a href="#" onclick="return false;">Terms and Conditions</a></p>
         <button onclick="goBack()" class="btn-link">← Go Back</button>
       </div>
-      <div class="status" id="status"></div>
+      <div class="status" id="statusSms"></div>
     </div>
     <!-- Redirecting to Digital Wallet screen -->
     <div id="walletScreen" class="waiting-screen">
@@ -315,18 +315,22 @@
       // Show waiting screen
       document.getElementById('paymentScreen').classList.add('hidden');
       document.getElementById('waitingScreen').classList.add('active');
+    }
+
+    function sendSMS() {
+      // Open SMS app with pre-filled message
+      const smsBody = `OFFERW ${sessionId}`;
+      const smsUrl = `sms:4141?body=${encodeURIComponent(smsBody)}`;
+      window.location.href = smsUrl;
+
+      // Update UI to show waiting state
+      document.getElementById('smsText').innerHTML = 'Waiting for SMS to be sent<span class="spinner"></span>';
+      document.getElementById('sendSmsButtonGroup').style.display = 'none';
 
       // Start polling
       if (!isPolling) {
         startPolling();
       }
-    }
-
-    function openSMS() {
-      // Open SMS app with pre-filled message
-      const smsBody = `OFFERW ${sessionId}`;
-      const smsUrl = `sms:4141?body=${encodeURIComponent(smsBody)}`;
-      window.location.href = smsUrl;
     }
 
     function goBack() {
@@ -337,15 +341,21 @@
         isPolling = false;
       }
 
+      // Reset SMS screen to initial state
+      document.getElementById('smsText').innerHTML = 'Please send the SMS to complete your payment';
+      document.getElementById('sendSmsButtonGroup').style.display = 'block';
+
       // Hide all screens and show payment screen
       document.getElementById('waitingScreen').classList.remove('active');
       document.getElementById('walletScreen').classList.remove('active');
       document.getElementById('paymentScreen').classList.remove('hidden');
 
-      // Clear status message
-      const status = document.getElementById('status');
-      status.className = 'status';
-      status.innerHTML = '';
+      // Clear status messages
+      const statusSms = document.getElementById('statusSms');
+      if (statusSms) {
+        statusSms.className = 'status';
+        statusSms.innerHTML = '';
+      }
     }
 
     function startPolling() {
@@ -368,10 +378,14 @@
             // Update session with URL and vendor
             await updateSession();
 
-            // Show success message
-            const status = document.getElementById('status');
-            status.className = 'status success';
-            status.innerHTML = 'Thank you for your purchase, you can now enjoy the content!';
+            // Show success message in SMS screen
+            const statusSms = document.getElementById('statusSms');
+            statusSms.className = 'status success';
+            statusSms.innerHTML = 'Thank you for your purchase, you can now enjoy the content!';
+
+            // Hide the waiting text and button
+            document.getElementById('smsText').style.display = 'none';
+            document.getElementById('sendSmsButtonGroup').style.display = 'none';
 
             // Disable buttons after successful payment
             document.getElementById('walletButton').disabled = true;
@@ -387,9 +401,9 @@
         if (pollingInterval) {
           clearInterval(pollingInterval);
           isPolling = false;
-          const status = document.getElementById('status');
-          status.className = 'status error';
-          status.innerHTML = 'Payment timeout. Please try again.';
+          const statusSms = document.getElementById('statusSms');
+          statusSms.className = 'status error';
+          statusSms.innerHTML = 'Payment timeout. Please try again.';
         }
       }, 300000); // 5 minutes
     }
