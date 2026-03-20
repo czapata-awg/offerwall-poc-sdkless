@@ -265,7 +265,10 @@
       <div class="waiting-content">
         <h2 class="waiting-title">Waiting for SMS confirmation</h2>
         <p class="waiting-text">Please send the SMS to complete your payment</p>
-        <button onclick="openSMS()" class="button-group" style="margin: 0;">Send SMS</button>
+        <div class="button-group" style="margin-top: 32px;">
+          <button onclick="openSMS()">Send SMS</button>
+        </div>
+        <p class="terms">By paying, you accept our <a href="#" onclick="return false;">Terms and Conditions</a></p>
         <button onclick="goBack()" class="btn-link">← Go Back</button>
       </div>
       <div class="status" id="status"></div>
@@ -311,9 +314,6 @@
       document.getElementById('paymentScreen').classList.add('hidden');
       document.getElementById('waitingScreen').classList.add('active');
 
-      // Open SMS app with pre-filled message
-      openSMS();
-
       // Start polling
       if (!isPolling) {
         startPolling();
@@ -321,6 +321,7 @@
     }
 
     function openSMS() {
+      // Open SMS app with pre-filled message
       const smsBody = `OFFERW ${sessionId}`;
       const smsUrl = `sms:4141?body=${encodeURIComponent(smsBody)}`;
       window.location.href = smsUrl;
