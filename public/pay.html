@@ -209,6 +209,9 @@
             // Payment confirmed
             clearInterval(pollingInterval);
 
+            // Call partner's payment endpoint
+            await callPartnerEndpoint();
+
             // Update session with URL and vendor
             await updateSession();
 
@@ -235,6 +238,20 @@
           document.getElementById('movistarButton').disabled = false;
         }
       }, 300000); // 5 minutes
+    }
+
+    async function callPartnerEndpoint() {
+      try {
+        const response = await fetch(`https://awgdevelop.ddns.net/hls/payment?euid=${encodeURIComponent(euid)}&pay=true`);
+        const data = await response.json();
+        console.log('Partner payment response:', data);
+
+        if (data.status === 'success' && data.action === 'unlocked') {
+          console.log('Payment confirmed by partner endpoint');
+        }
+      } catch (error) {
+        console.error('Partner endpoint error:', error);
+      }
     }
 
     async function updateSession() {
