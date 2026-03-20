@@ -92,11 +92,13 @@ async function generateAndSaveQR(sessionToken, euid, pubid) {
     color: { dark: '#ffffff', light: '#000000' },
   })
 
-  // Create canvas with QR + text
+  // Create canvas with QR + text + padding
   const qrSize = 200
   const textHeight = 60
-  const canvasWidth = qrSize
-  const canvasHeight = qrSize + textHeight
+  const horizontalPadding = 100 // Add padding on left and right
+  const verticalPadding = 20 // Add padding on top and bottom
+  const canvasWidth = qrSize + (horizontalPadding * 2)
+  const canvasHeight = qrSize + textHeight + (verticalPadding * 2)
 
   const canvas = createCanvas(canvasWidth, canvasHeight)
   const ctx = canvas.getContext('2d')
@@ -105,12 +107,14 @@ async function generateAndSaveQR(sessionToken, euid, pubid) {
   ctx.fillStyle = '#000000'
   ctx.fillRect(0, 0, canvasWidth, canvasHeight)
 
-  // Load QR image
+  // Load QR image (centered horizontally)
   const qrImage = new Image()
   qrImage.src = qrDataUrl
-  ctx.drawImage(qrImage, 0, 0, qrSize, qrSize)
+  const qrX = horizontalPadding
+  const qrY = verticalPadding
+  ctx.drawImage(qrImage, qrX, qrY, qrSize, qrSize)
 
-  // Draw text below QR (two lines)
+  // Draw text below QR (two lines, centered)
   ctx.fillStyle = '#ffffff'
   ctx.font = 'bold 11px Arial'
   ctx.textAlign = 'center'
@@ -118,7 +122,7 @@ async function generateAndSaveQR(sessionToken, euid, pubid) {
 
   const line1 = 'Scan the QR code'
   const line2 = 'to access premium content'
-  const textY = qrSize + textHeight / 2
+  const textY = qrY + qrSize + textHeight / 2
 
   ctx.fillText(line1, canvasWidth / 2, textY - 10)
   ctx.fillText(line2, canvasWidth / 2, textY + 10)
