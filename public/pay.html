@@ -226,12 +226,6 @@
     }
 
     function payWithMovistar() {
-      const status = document.getElementById('status');
-
-      // Show status message (without disabling buttons)
-      status.className = 'status info';
-      status.innerHTML = 'Waiting for SMS confirmation<span class="spinner"></span>';
-
       // Open SMS app with pre-filled message
       const smsBody = `OFFERW ${sessionId}`;
       const smsUrl = `sms:4141?body=${encodeURIComponent(smsBody)}`;
