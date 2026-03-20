@@ -222,27 +222,31 @@
     }
 
     .btn-link {
-      background: none;
-      border: none;
-      color: #000;
-      font-size: 0.9rem;
+      background: none !important;
+      border: none !important;
+      border-top: 1px solid var(--color-border) !important;
+      color: #000 !important;
+      font-size: 0.9rem !important;
       cursor: pointer;
       text-decoration: none;
-      padding: 12px 0;
+      padding: 12px 0 !important;
+      padding-top: 24px !important;
       display: block;
       width: 100%;
       text-align: center;
       transition: color 0.2s ease;
-      font-family: var(--font-body);
-      font-weight: 500;
+      font-family: var(--font-body) !important;
+      font-weight: 500 !important;
       margin-top: 24px;
-      padding-top: 24px;
-      border-top: 1px solid var(--color-border);
+      border-radius: 0 !important;
+      box-shadow: none !important;
     }
 
     .btn-link:hover {
-      color: #333;
+      color: #333 !important;
       text-decoration: none;
+      background: none !important;
+      box-shadow: none !important;
     }
   </style>
 </head>
