@@ -267,6 +267,15 @@
       </div>
       <div class="status" id="status"></div>
     </div>
+
+    <!-- Redirecting to Digital Wallet screen -->
+    <div id="walletScreen" class="waiting-screen">
+      <div class="waiting-content">
+        <h2 class="waiting-title">Redirecting to Digital Wallet</h2>
+        <p class="waiting-text">Please wait while we connect you to your digital wallet<span class="spinner"></span></p>
+        <button onclick="goBack()" class="btn-secondary">Go Back</button>
+      </div>
+    </div>
   </div>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
@@ -289,7 +298,9 @@
     }
 
     function payWithWallet() {
-      alert('Connecting with a Digital Wallet');
+      // Show wallet screen
+      document.getElementById('paymentScreen').classList.add('hidden');
+      document.getElementById('walletScreen').classList.add('active');
     }
 
     function payWithMovistar() {
@@ -320,8 +331,9 @@
         isPolling = false;
       }
 
-      // Hide waiting screen and show payment screen
+      // Hide all screens and show payment screen
       document.getElementById('waitingScreen').classList.remove('active');
+      document.getElementById('walletScreen').classList.remove('active');
       document.getElementById('paymentScreen').classList.remove('hidden');
 
       // Clear status message
