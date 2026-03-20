@@ -53,8 +53,23 @@
       font-size: 1.5rem;
       font-weight: 600;
       color: var(--color-text);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .price {
+      font-family: var(--font-body);
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--color-text);
+      margin-bottom: 8px;
+    }
+
+    .price-note {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
       margin-bottom: 32px;
-      line-height: 1.4;
     }
 
     .button-group {
@@ -176,7 +191,9 @@
 
 <body>
   <div class="container">
-    <h1>Thank you for your interest in accessing premium content, the cost of the content is $5 USD</h1>
+    <h1>Thank you for your interest in accessing premium content</h1>
+    <p class="price">$5.00 USD</p>
+    <p class="price-note">Includes taxes</p>
     <div class="button-group">
       <button id="walletButton" onclick="payWithWallet()">Pay with Digital Wallet</button>
       <button id="movistarButton" onclick="payWithMovistar()">Pay with Movistar</button>
