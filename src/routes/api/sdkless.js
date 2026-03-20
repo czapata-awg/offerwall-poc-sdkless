@@ -110,16 +110,18 @@ async function generateAndSaveQR(sessionToken, euid, pubid) {
   qrImage.src = qrDataUrl
   ctx.drawImage(qrImage, 0, 0, qrSize, qrSize)
 
-  // Draw text below QR
+  // Draw text below QR (two lines)
   ctx.fillStyle = '#ffffff'
-  ctx.font = 'bold 12px Arial'
+  ctx.font = 'bold 11px Arial'
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
 
-  const text = 'Scan the QR code to access premium content'
+  const line1 = 'Scan the QR code'
+  const line2 = 'to access premium content'
   const textY = qrSize + textHeight / 2
 
-  ctx.fillText(text, canvasWidth / 2, textY)
+  ctx.fillText(line1, canvasWidth / 2, textY - 10)
+  ctx.fillText(line2, canvasWidth / 2, textY + 10)
 
   // Save to file
   const buffer = canvas.toBuffer('image/png')
