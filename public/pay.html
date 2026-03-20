@@ -132,6 +132,22 @@
       vertical-align: middle;
     }
 
+    .terms {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .terms a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    .terms a:hover {
+      text-decoration: underline;
+    }
+
     @keyframes spin {
       0% {
         transform: rotate(0deg);
@@ -152,6 +168,7 @@
       <button id="movistarButton" onclick="payWithMovistar()">Pay with Movistar</button>
     </div>
     <div class="status" id="status"></div>
+    <p class="terms">By paying, you accept our <a href="#" onclick="return false;">Terms and Conditions</a></p>
   </div>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
@@ -218,7 +235,7 @@
             // Show success message
             const status = document.getElementById('status');
             status.className = 'status success';
-            status.innerHTML = 'Payment confirmed!<br>You can now enjoy the content.';
+            status.innerHTML = 'Thank you for your purchase, you can now enjoy the content!';
           }
         } catch (error) {
           console.error('Polling error:', error);
