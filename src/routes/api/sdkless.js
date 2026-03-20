@@ -84,6 +84,11 @@ async function generateAndSaveQR(sessionToken, euid, pubid) {
   const filename = `${sessionToken}.png`
   const filepath = path.join(QR_DIR, filename)
 
+  // Delete old QR if exists
+  if (fs.existsSync(filepath)) {
+    fs.unlinkSync(filepath)
+  }
+
   // Generate QR as data URL
   const qrDataUrl = await QRCode.toDataURL(paymentUrl, {
     errorCorrectionLevel: 'M',
