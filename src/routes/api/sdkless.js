@@ -89,21 +89,24 @@ async function generateAndSaveQR(sessionToken, euid, pubid) {
     fs.unlinkSync(filepath)
   }
 
-  // Generate QR as data URL
+  // Generate QR as data URL (smaller size)
   const qrDataUrl = await QRCode.toDataURL(paymentUrl, {
     errorCorrectionLevel: 'M',
     margin: 1,
-    width: 200,
+    width: 150,
     color: { dark: '#ffffff', light: '#000000' },
   })
 
-  // Create canvas with QR + text + padding
-  const qrSize = 200
-  const textHeight = 60
-  const horizontalPadding = 100 // Add padding on left and right
-  const verticalPadding = 20 // Add padding on top and bottom
-  const canvasWidth = qrSize + (horizontalPadding * 2)
-  const canvasHeight = qrSize + textHeight + (verticalPadding * 2)
+  // Create canvas with QR + text + padding (16:9 aspect ratio for video)
+  const qrSize = 150
+  const textHeight = 50
+  const canvasWidth = 640 // Standard width for overlay
+  const canvasHeight = 360 // 16:9 aspect ratio
+
+  // Center the QR code in the canvas
+  const horizontalPadding = (canvasWidth - qrSize) / 2
+  const totalContentHeight = qrSize + textHeight
+  const verticalPadding = (canvasHeight - totalContentHeight) / 2
 
   const canvas = createCanvas(canvasWidth, canvasHeight)
   const ctx = canvas.getContext('2d')
@@ -121,16 +124,16 @@ async function generateAndSaveQR(sessionToken, euid, pubid) {
 
   // Draw text below QR (two lines, centered)
   ctx.fillStyle = '#ffffff'
-  ctx.font = 'bold 11px Arial'
+  ctx.font = 'bold 14px Arial'
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
 
   const line1 = 'Scan the QR code'
   const line2 = 'to access premium content'
-  const textY = qrY + qrSize + textHeight / 2
+  const textStartY = qrY + qrSize + 10 // 10px gap between QR and text
 
-  ctx.fillText(line1, canvasWidth / 2, textY - 10)
-  ctx.fillText(line2, canvasWidth / 2, textY + 10)
+  ctx.fillText(line1, canvasWidth / 2, textStartY + 10)
+  ctx.fillText(line2, canvasWidth / 2, textStartY + 30)
 
   // Save to file
   const buffer = canvas.toBuffer('image/png')
