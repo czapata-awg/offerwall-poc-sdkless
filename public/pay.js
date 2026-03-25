@@ -188,7 +188,7 @@ async function callPayEndpoint() {
 async function updateSession() {
   try {
     const response = await fetch(
-      `https://awgreporting.com/offerwall-api/update?sessionId=${euid}`,
+      `https://awgreporting.com/offerwall-api/update?token=${euid}`,
       {
         method: 'PUT',
         headers: {
