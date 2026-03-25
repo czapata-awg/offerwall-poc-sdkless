@@ -107,7 +107,7 @@ function startPolling() {
   pollingInterval = setInterval(async () => {
     try {
       const response = await fetch(
-        `https://awgreporting.com/offerwall-api/status?sessionId=${euid}`,
+        `https://awgreporting.com/offerwall-api/status?token=${euid}`,
       )
       const data = await response.json()
 
