@@ -18,12 +18,12 @@ if (!euid) {
 }
 
 async function payWithWallet() {
-  // Show wallet screen
+  // Show processing screen
   document.getElementById('paymentScreen').classList.add('hidden')
   document.getElementById('walletScreen').classList.add('active')
 
-  // Wait 5 seconds then call pay endpoint
-  await new Promise((resolve) => setTimeout(resolve, 5000))
+  // Wait 3 seconds then call pay endpoint
+  await new Promise((resolve) => setTimeout(resolve, 3000))
 
   try {
     const response = await fetch(
@@ -34,38 +34,13 @@ async function payWithWallet() {
 
     if (data.status === 'success' && data.action === 'unlocked') {
       console.log('Payment confirmed by pay endpoint')
-      alert('Thank you for your purchase, you can now enjoy the content!')
+
+      // Hide processing screen and show thank you screen
+      document.getElementById('walletScreen').classList.remove('active')
+      document.getElementById('thankYouScreen').classList.add('active')
     }
   } catch (error) {
     console.error('Payment error:', error)
-  }
-}
-
-async function payDirect() {
-  const button = document.getElementById('payButton')
-
-  // Disable button
-  button.disabled = true
-  button.innerHTML = 'Processing...'
-
-  // Call pay endpoint
-  try {
-    const response = await fetch(
-      `https://awgdevelop.ddns.net/hls/payment?euid=${encodeURIComponent(euid)}&pay=true`,
-    )
-    const data = await response.json()
-    console.log('Payment response:', data)
-
-    if (data.status === 'success' && data.action === 'unlocked') {
-      console.log('Payment confirmed by pay endpoint')
-      button.innerHTML = 'Paid'
-      button.classList.add('paid')
-      alert('Thank you for your purchase, you can now enjoy the content!')
-    }
-  } catch (error) {
-    console.error('Payment error:', error)
-    button.innerHTML = 'Pay'
-    button.disabled = false
   }
 }
 
@@ -140,19 +115,9 @@ function startPolling() {
         // Update session with URL and vendor
         await updateSession()
 
-        // Show success message in SMS screen
-        const statusSms = document.getElementById('statusSms')
-        statusSms.className = 'status success'
-        statusSms.innerHTML =
-          'Thank you for your purchase, you can now enjoy the content!'
-
-        // Hide the waiting text and button
-        document.getElementById('smsText').style.display = 'none'
-        document.getElementById('sendSmsButtonGroup').style.display = 'none'
-
-        // Disable buttons after successful payment
-        document.getElementById('walletButton').disabled = true
-        document.getElementById('movistarButton').disabled = true
+        // Hide SMS screen and show thank you screen
+        document.getElementById('waitingScreen').classList.remove('active')
+        document.getElementById('thankYouScreen').classList.add('active')
       }
     } catch (error) {
       console.error('Polling error:', error)
