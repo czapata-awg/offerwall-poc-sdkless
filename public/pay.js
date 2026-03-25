@@ -3,11 +3,11 @@ const euid = urlParams.get('euid')
 const publisher = urlParams.get('publisher')
 
 // Generate random 6-character alphanumeric session ID
-function generateSessionId() {
-  return Math.random().toString(36).substring(2, 8).toUpperCase()
-}
+// function generateSessionId() {
+//   return Math.random().toString(36).substring(2, 8).toUpperCase()
+// }
 
-const sessionId = generateSessionId()
+// const sessionId = generateSessionId()
 let pollingInterval = null
 let isPolling = false
 
@@ -52,7 +52,7 @@ function payWithMovistar() {
 
 function sendSMS() {
   // Open SMS app with pre-filled message
-  const smsBody = `OFFERW ${sessionId}`
+  const smsBody = `OFFERW ${euid}`
   const smsUrl = `sms:4141?body=${encodeURIComponent(smsBody)}`
   window.location.href = smsUrl
 
