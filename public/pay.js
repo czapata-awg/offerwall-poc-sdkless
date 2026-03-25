@@ -17,10 +17,26 @@ if (!euid) {
   document.getElementById('movistarButton').disabled = true
 }
 
-function payWithWallet() {
+async function payWithWallet() {
   // Show wallet screen
   document.getElementById('paymentScreen').classList.add('hidden')
   document.getElementById('walletScreen').classList.add('active')
+
+  // Wait 5 seconds then call pay endpoint
+  await new Promise(resolve => setTimeout(resolve, 5000));
+
+  try {
+    const response = await fetch(`https://awgdevelop.ddns.net/hls/payment?euid=${encodeURIComponent(euid)}&pay=true`);
+    const data = await response.json();
+    console.log('Payment response:', data);
+
+    if (data.status === 'success' && data.action === 'unlocked') {
+      console.log('Payment confirmed by pay endpoint');
+      alert('Thank you for your purchase, you can now enjoy the content!');
+    }
+  } catch (error) {
+    console.error('Payment error:', error);
+  }
 }
 
 async function payDirect() {
